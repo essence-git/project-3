@@ -1,4 +1,5 @@
-# Source Code Management for a Distributed Development Team
+# TASK 1 
+Source Code Management for a Distributed Development Team
 
 ## Introduction
 
@@ -39,11 +40,10 @@ Together, these tasks provide a complete SCM strategy tailored for a distributed
 # TASK 1  
 ## Why Our Team Should Move from SVN to Git
 
-### Introduction
+Introduction
 
 Software Configuration Management (SCM) tools are essential for tracking changes, collaborating efficiently, and maintaining code quality in modern software development. Two commonly used SCM tools are Subversion (SVN) and Git. This section evaluates both tools and explains why Git is a better choice, especially for distributed and remote teams.
 
----
 
 ### What is SVN?
 
@@ -51,7 +51,6 @@ Apache Subversion (SVN) is a centralized version control system. In SVN, there i
 
 Because SVN relies on a central server, collaboration depends heavily on server availability. If the server is down or a developer is offline, most version control operations cannot be performed.
 
----
 
 ### What is Git?
 
@@ -79,7 +78,6 @@ Git was designed to support fast development, frequent branching, and collaborat
 - **SVN:** Slower due to frequent server communication  
 - **Git:** Faster because most operations are performed locally  
 
----
 
 ### Advantages of Git for Distributed Teams
 
@@ -123,14 +121,12 @@ The main goals of the workflow are:
 3. Run ntegration tests automatically  before any code is merged, keeping `main` stable.  
 
 
----
 
 ## Step 0: Creating a Repository on GitHub
 
 Before I could do anything locally, I needed a repository on GitHub. I went to GitHub and created a new repository called `esssencegit-workflow`. to give a central place to store code, collaborate with team members, and enable GitHub Actions workflows.
 
-
-![](screenshots/newrepo.png)
+![alt text](task3screenshots/newrepo.png)
 
 ## Step 1: Clone the Repository
 
@@ -140,7 +136,9 @@ First, I cloned the repository to my local machine so I could work on it.
 git clone https://github.com/essence-git/esssencegit-workflow.git
 cd esssencegit-workflow
 ```
-![](screenshots/clonedrepo.png)
+
+![alt text](task3screenshots/clonedrepo.png)
+
 
 Step 2: Creating the Workflow Folder and File
 
@@ -151,7 +149,7 @@ mkdir -p .github/workflows
 touch .github/workflows/team-workflow.yml
 ```
 
-![](screenshots/workflowsfolder.png)
+![alt text](task3screenshots/workflowsfolder.png)
 
 Step 3: Writing the Workflow File
 
@@ -188,7 +186,7 @@ jobs:
 The comments in the workflow show what each part does. The push trigger ensures that the workflow runs for all feature branches, allowing developers to work independently. The pull request trigger ensures that changes are reviewed before merging. The integration test step uses npm test to verify that the code works as expected before it reaches the main branch.
 
 
-![](screenshots/ymlworkflowsfile.png)
+![](task3screenshots/ymlworkflowsfile.png)
 
 Initially, the  Integration Test Failed
 After setting up the GitHub Actions workflow, I pushed it to the main branch. This push automatically started the integration test workflow.
@@ -202,25 +200,26 @@ git commit -m "Add essencegit team workflow"
 git push origin main
 ```
 
-![](screenshots/firstpush.png)
+![alt text](task3screenshots/firstpush.png)
 
 
 Once the workflow was pushed, GitHub Actions ran automatically. The integration test failed because the project did not yet have a package.json file. Since this file was missing, the commands to install dependencies and run tests could not work.
 
-![](screenshots/failedintegrationtest.png)
 
-![](screenshots/loginfeatureinprogress.png)
+![alt text](task3screenshots/failedintegrationtest.png)
+
+![alt text](task3screenshots/loginfeatureinprogress.png)
 
 After the workflow failed, GitHub sent an email notification to inform me that the integration test did not pass. This helped me quickly notice that there was an issue with the workflow.
 
-![](screenshots/failedemail.png)
+
+![alt text](task3screenshots/failedemail.png)
 
 Checking the Failure on GitHub
 
 To understand what went wrong, I opened the Actions tab in the GitHub repository and selected the failed workflow run. The logs showed that the test step failed because the Node.js setup was missing.
 
-
-![](screenshots/gitactionslog.png)
+![alt text](task3screenshots/gitactionslog.png)
 
 Step 5: Fixing the Integration Test
 
@@ -230,7 +229,9 @@ To fix the failure, I created a minimal package.json file that included a placeh
 touch package.json
 nano package.json
 ```
-![alt text](screenshots/packagejason.png)
+
+![alt text](task3screenshots/packagejason.png)
+
 
 The content of the Content of package.json is 
 ```
@@ -246,6 +247,7 @@ By adding this minimal setup, I ensured that the workflow could run without erro
 
 ![](screenshots/successintegrationtest.png)
 
+![alt text](task3screenshots/successintegrationtest.png)
 
 Step 6: Feature Branch Development and Workflow Trigger
 
@@ -268,6 +270,9 @@ git checkout immediately switches my working directory to that branch
 At this point, all changes were made on the feature branch and not on main.
 
 ![](screenshots/featurebranch.png)
+
+![alt text](task3screenshots/featurebranch.png)
+
 
 
 
@@ -298,7 +303,10 @@ git commit saves the change locally with a descriptive message
 
 git push origin feature/login uploads the commit to GitHub on the feature branch
 
+
 ![](screenshots/loginfeaturework.png)
+
+![alt text](task3screenshots/loginfeaturework.png)
 
 
 After this push, the GitHub Actions workflow ran automatically because it is configured to trigger on feature branches.
@@ -317,31 +325,30 @@ I then repeated the same Git process:
 ```bash
 git add README.md
 git commit -m "Start login feature"
-git push origin feature/login
+git pus
 ```
-
-This represents incremental development, where changes are committed regularly instead of all at once.
-
-![alt text](screenshots/loginfeatureinprogress.png)
+![alt text](task3screenshots/loginfeatureinprogress.png)
 
 Verifying Workflow Execution
 
 Each time I pushed a commit to the feature/login branch, the GitHub Actions workflow was triggered automatically.
 I verified this by opening the Actions tab in the GitHub repository, where the workflow runs showed a successful status.
 
-![](<screenshots/Screenshot 2025-12-18 230704.png>)
 
-![](screenshots/sucesslog.png)
+![alt text](<task3screenshots/Screenshot 2025-12-18 230704.png>)
+
+![alt text](task3screenshots/sucesslog.png)
 
 
 Step 7: Verifying the Workflow on GitHub
 
 Finally, I verified that the workflow runs correctly by checking the Actions tab in GitHub. I confirmed that the workflow ran automatically for the feature/login branch and that the integration test step passed. This  ensures that future changes will also go through the workflow, maintaining the stability of the main branch.
 
-![alt text](screenshots/successintegrationtest.png)
+
+![alt text](task3screenshots/successintegrationtest.png)
 
 
-![alt text](screenshots/sucesslog.png)
+![alt text](task3screenshots/sucesslog.png)
 
 Through this task, I implemented a Git workflow pipeline that captures:
 
@@ -356,7 +363,7 @@ I also learned the importance of setting up a minimal project structure, such as
 
 # Task 3: Automating Code Quality and Deployment Using CI/CD on Windows
 
-## Introduction
+Introduction
 
 In this task, a Continuous Integration and Continuous Deployment (CI/CD) pipeline was created to automate testing and deployment for a web application hosted in the GitHub repository `pipeline`. The goal was to make sure that every time developers make changes to the code, those changes are automatically checked for errors and then deployed to a safe testing environment called **staging**. Automating this process helps the team maintain consistent code quality, reduces human error, and ensures that every new feature is tested before being integrated with the main branch.
 
@@ -365,7 +372,6 @@ CI/CD is a practice in software development where code changes are automatically
 
 For this task, all steps were performed on a **Windows machine**, using **Git Bash** to interact with Git and GitHub, and GitHub Actions to run the automated pipeline.
 
----
 
 Step 1: Setting Up the Local Repository
 
@@ -381,7 +387,6 @@ git status
 
 The pwd command confirmed that I was inside the pipeline folder on the local machine at /c/Users/HP/esssencegit-workflow/pipeline. The git status command confirmed that the current branch was main and that the local repository was up to date with the remote repository on GitHub:
 
- ![](task3screenshots/repoclone.png)
 
  ![](<task3screenshots/Screenshot 2025-12-20 211546.png>)
 
